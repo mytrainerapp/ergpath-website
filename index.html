@@ -1,0 +1,561 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b100d">
+  <meta name="description" content="ERGPath is a focused indoor cycling training app with smart trainer control, structured workouts and flexible training plans.">
+  <title>ERGPath | Ride. Train. Progress.</title>
+
+  <style>
+    :root {
+      --bg: #080c0a;
+      --surface: #111a15;
+      --surface2: #18231d;
+      --green: #2be65c;
+      --text: #f5f8f5;
+      --muted: #a0ada4;
+      --border: #294034;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.6;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .container {
+      width: min(1120px, calc(100% - 40px));
+      margin: auto;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(8, 12, 10, .95);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(12px);
+    }
+
+    .nav {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .logo {
+      font-size: 27px;
+      font-weight: 800;
+      letter-spacing: -1px;
+    }
+
+    .logo span { color: var(--green); }
+
+    nav {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+
+    nav a {
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    nav a:hover { color: var(--green); }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 115px 0 110px;
+      background:
+        radial-gradient(ellipse at 80% 35%, rgba(43,230,92,.15), transparent 48%),
+        linear-gradient(145deg, #13271b, #080c0a 60%);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      align-items: center;
+      gap: 65px;
+    }
+
+    .eyebrow {
+      color: var(--green);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    h1 {
+      font-size: clamp(46px, 6vw, 79px);
+      line-height: 1.06;
+      letter-spacing: -3px;
+      margin: 20px 0 25px;
+    }
+
+    h1 span { color: var(--green); }
+
+    .hero p, .intro {
+      color: var(--muted);
+      font-size: 18px;
+      max-width: 580px;
+    }
+
+    .button {
+      display: inline-block;
+      border-radius: 15px;
+      background: var(--green);
+      color: #071008;
+      padding: 16px 30px;
+      font-weight: 800;
+      margin-top: 22px;
+      text-align: center;
+    }
+
+    .button:hover { background: #65f688; }
+
+    .preview {
+      padding: 24px;
+      background: linear-gradient(145deg, #1a2b20, #0d1410);
+      border: 1px solid #365343;
+      border-radius: 26px;
+      box-shadow: 0 25px 80px rgba(0,0,0,.35);
+    }
+
+    .preview-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 23px;
+    }
+
+    .preview-heading strong { font-size: 19px; }
+
+    .preview-heading small {
+      color: var(--green);
+      font-weight: 700;
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 9px;
+    }
+
+    .metric {
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      padding: 14px 10px;
+      background: #101812;
+    }
+
+    .metric span {
+      display: block;
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: .5px;
+    }
+
+    .metric strong {
+      display: block;
+      font-size: clamp(16px, 2vw, 23px);
+      margin-top: 5px;
+    }
+
+    .chart-wrap {
+      margin-top: 14px;
+      padding: 12px;
+      background: #0b120e;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+    }
+
+    .chart-wrap svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .preview-caption {
+      margin-top: 12px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    section.content {
+      padding: 90px 0;
+    }
+
+    .section-heading {
+      font-size: clamp(31px, 4vw, 45px);
+      letter-spacing: -1px;
+      line-height: 1.15;
+      margin: 12px 0 18px;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 40px;
+    }
+
+    .feature {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 28px;
+      border-radius: 22px;
+    }
+
+    .feature .symbol {
+      font-size: 30px;
+      color: var(--green);
+      margin-bottom: 15px;
+    }
+
+    .feature h3 {
+      font-size: 20px;
+      margin: 0 0 10px;
+    }
+
+    .feature p {
+      color: var(--muted);
+      margin: 0;
+      font-size: 15px;
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .statement {
+      background: linear-gradient(145deg, #163221, #101813);
+      border: 1px solid var(--border);
+      border-radius: 26px;
+      padding: 44px;
+    }
+
+    .statement strong {
+      display: block;
+      color: var(--green);
+      font-size: 16px;
+      margin-bottom: 17px;
+    }
+
+    .statement p {
+      font-size: 27px;
+      font-weight: 700;
+      line-height: 1.4;
+      margin: 0;
+    }
+
+    .cta {
+      padding: 70px 25px;
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      text-align: center;
+      background: linear-gradient(145deg, #173521, #0f1712);
+    }
+
+    .cta p {
+      color: var(--muted);
+      max-width: 580px;
+      margin: auto;
+    }
+
+    .coming-soon {
+      display: inline-block;
+      margin-top: 25px;
+      color: var(--green);
+      border: 1px solid #346c45;
+      border-radius: 30px;
+      padding: 12px 22px;
+      font-weight: 700;
+      letter-spacing: .6px;
+    }
+
+    footer {
+      margin-top: 85px;
+      padding: 30px 0;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .footer-inner {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    @media (max-width: 800px) {
+      .hero-grid, .split {
+        grid-template-columns: 1fr;
+        gap: 35px;
+      }
+
+      .hero { padding: 70px 0; }
+
+      .feature-grid { grid-template-columns: 1fr; }
+
+      nav { gap: 14px; }
+
+      nav a { font-size: 12px; }
+
+      .nav { padding: 12px 0; }
+
+      .statement { padding: 28px; }
+
+      .statement p { font-size: 23px; }
+
+      section.content { padding: 65px 0; }
+    }
+
+    @media (max-width: 420px) {
+      .logo { font-size: 23px; }
+      .metric { padding: 10px 7px; }
+      .preview { padding: 16px; }
+      h1 { letter-spacing: -2px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="container nav">
+      <a class="logo" href="#">ERG<span>Path</span></a>
+
+      <nav aria-label="Main navigation">
+        <a href="#features">Features</a>
+        <a href="#experience">Experience</a>
+        <a href="#download">Download</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <section class="hero">
+      <div class="container hero-grid">
+
+        <div>
+          <div class="eyebrow">Cycling training. Simplified.</div>
+
+          <h1>RIDE.<br>TRAIN.<br><span>PROGRESS.</span></h1>
+
+          <p>
+            Structured indoor cycling workouts, smart trainer
+            control and training plans in one focused app.
+            Train your way, without unnecessary distractions.
+          </p>
+
+          <a class="button" href="#features">EXPLORE ERGPATH →</a>
+        </div>
+
+        <div class="preview">
+          <div class="preview-heading">
+            <strong>Structured Training</strong>
+            <small>ERGPath</small>
+          </div>
+
+          <div class="metric-grid">
+            <div class="metric">
+              <span>POWER</span>
+              <strong>185 W</strong>
+            </div>
+            <div class="metric">
+              <span>TARGET</span>
+              <strong>190 W</strong>
+            </div>
+            <div class="metric">
+              <span>CADENCE</span>
+              <strong>86 RPM</strong>
+            </div>
+          </div>
+
+          <div class="chart-wrap">
+            <svg viewBox="0 0 480 185" role="img"
+                 aria-label="Illustrative green cycling workout power profile">
+              <g stroke="#2c4133" stroke-width="1">
+                <line x1="0" y1="40" x2="480" y2="40"/>
+                <line x1="0" y1="90" x2="480" y2="90"/>
+                <line x1="0" y1="140" x2="480" y2="140"/>
+              </g>
+              <path
+                d="M0 135 L55 105 L105 105 L105 60
+                   L155 60 L155 115 L180 115
+                   L180 60 L240 60 L240 115
+                   L265 115 L265 60 L325 60
+                   L325 115 L350 115 L350 60
+                   L405 60 L405 105 L480 145
+                   L480 185 L0 185 Z"
+                fill="#2be65c"
+                fill-opacity=".30"/>
+              <path
+                d="M0 135 L55 105 L105 105 L105 60
+                   L155 60 L155 115 L180 115
+                   L180 60 L240 60 L240 115
+                   L265 115 L265 60 L325 60
+                   L325 115 L350 115 L350 60
+                   L405 60 L405 105 L480 145"
+                fill="none"
+                stroke="#2be65c"
+                stroke-width="3"
+                stroke-linejoin="round"/>
+            </svg>
+          </div>
+
+          <div class="preview-caption">
+            Illustrative workout preview
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="features" class="content">
+      <div class="container">
+        <div class="eyebrow">Built for cyclists</div>
+        <h2 class="section-heading">Everything you need to train.</h2>
+        <p class="intro">
+          A focused experience designed around your workouts,
+          your trainer and your progress.
+        </p>
+
+        <div class="feature-grid">
+          <article class="feature">
+            <div class="symbol">◉</div>
+            <h3>Smart Trainer Control</h3>
+            <p>
+              Connect compatible Bluetooth FTMS smart trainers
+              and follow structured power targets in ERG mode.
+            </p>
+          </article>
+
+          <article class="feature">
+            <div class="symbol">▥</div>
+            <h3>Structured Workouts</h3>
+            <p>
+              Explore Endurance, Tempo, Sweet Spot, Threshold,
+              VO₂ Max and other cycling workout categories.
+            </p>
+          </article>
+
+          <article class="feature">
+            <div class="symbol">↗</div>
+            <h3>Training Plans</h3>
+            <p>
+              Follow goal-focused plans for general fitness,
+              FTP development, climbing, road racing and MTB.
+            </p>
+          </article>
+
+          <article class="feature">
+            <div class="symbol">▰</div>
+            <h3>Entertainment Mode</h3>
+            <p>
+              Keep essential workout metrics and controls visible
+              while using other entertainment apps.
+            </p>
+          </article>
+
+          <article class="feature">
+            <div class="symbol">⌁</div>
+            <h3>Track Your Progress</h3>
+            <p>
+              Review saved rides, training load, ride history
+              and FTP test progress.
+            </p>
+          </article>
+
+          <article class="feature">
+            <div class="symbol">⇧</div>
+            <h3>Strava Integration</h3>
+            <p>
+              Connect your Strava account and upload completed
+              indoor rides.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="experience" class="content">
+      <div class="container split">
+        <div>
+          <div class="eyebrow">Your training. Your way.</div>
+          <h2 class="section-heading">
+            Serious training.<br>Less distraction.
+          </h2>
+          <p class="intro">
+            ERGPath puts the workout first. Follow clear power
+            targets, build consistency with structured plans and
+            review your results after every ride.
+          </p>
+          <p class="intro">
+            No virtual world required. Just you, your bike,
+            your trainer and your training goals.
+          </p>
+        </div>
+
+        <div class="statement">
+          <strong>THE ERGPATH PHILOSOPHY</strong>
+          <p>
+            Ride at your own pace.<br>
+            Train with purpose.<br>
+            Keep moving forward.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="download" class="content">
+      <div class="container">
+        <div class="cta">
+          <div class="eyebrow">ERGPath for Android</div>
+          <h2 class="section-heading">
+            Your next ride starts here.
+          </h2>
+          <p>
+            ERGPath is being developed for Android.
+            Download information and release details will
+            appear here when the app is publicly available.
+          </p>
+          <div class="coming-soon">COMING SOON</div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <div>© 2026 ERGPath. All rights reserved.</div>
+      <div>Structured cycling training for every rider.</div>
+    </div>
+  </footer>
+
+</body>
+</html>
