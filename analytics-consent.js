@@ -26,7 +26,7 @@
         Number.isFinite(x.expires) && x.expires > Date.now() && x.expires <= Date.now() + TTL ? x : null;
     } catch { return null; }
   }
-  function close() { dialog.close(); settings.focus(); }
+  function close() { dialog.close(); settings.focus({preventScroll:true}); }
   function open() {
     status.textContent = '';
     if (!dialog.open) dialog.show();
