@@ -1,1 +1,2 @@
-{"version":1,"include":["/analytics-region","/delete-account","/delete-account/*"],"exclude":[]}
+{"version":1,"include":["/analytics-region","/delete-account","/delete-account/*","/api/testers","/api/testers/*"],"exclude":[]}
+
