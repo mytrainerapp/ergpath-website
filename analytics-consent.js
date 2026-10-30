@@ -7,7 +7,17 @@
   const status = document.getElementById('analytics-status');
   let loaded = false;
   let timer;
+  let regionReady = false;
+  let requiresConsent = true;
   let current = read();
+  function permitted() {
+    return current?.choice === 'allow' || (regionReady && !requiresConsent && current?.choice !== 'reject');
+  }
+  function applyRegion() {
+    load();
+    expire();
+    if (regionReady && requiresConsent && !current) open();
+  }
   function read() {
     if (new URL(location.href).searchParams.get('analytics') === 'off') return {version:1, choice:'reject', expires:Date.now()+TTL};
     try {
@@ -22,7 +32,7 @@
     if (!dialog.open) dialog.show();
   }
   function load() {
-    if (loaded || current?.choice !== 'allow') return;
+    if (loaded || !permitted()) return;
     const token = document.querySelector('meta[name="ergpath-analytics-token"]')?.content || '';
     // Unconfigured review copies fail closed. The site token is public, not an API credential.
     if (!/^[a-f0-9]{32}$/.test(token)) return;
@@ -41,7 +51,7 @@
     timer = setTimeout(() => {
       if (Date.now() >= current.expires) {
         current = null;
-        if (loaded) location.reload(); else open();
+        if (loaded) location.reload(); else applyRegion();
       } else expire();
     }, Math.min(current.expires - Date.now(), 86400000));
   }
@@ -80,8 +90,27 @@
   window.addEventListener('storage', event => {
     if (event.key !== KEY && event.key !== null) return;
     current = read();
-    if (loaded && current?.choice !== 'allow') location.reload();
-    else { expire(); if (!current) open(); }
+    if (loaded && !permitted()) location.reload();
+    else applyRegion();
   });
-  if (current) { load(); expire(); } else open();
+  // The owner explicitly chose automatic analytics for non-EU and unknown locations.
+  // Never cache a visitor's region or share a region response between visitors.
+  async function init() {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 3000);
+    try {
+      const response = await fetch('/analytics-region', {cache:'no-store', credentials:'omit', signal:controller.signal});
+      if (!response.ok) throw new Error('region unavailable');
+      const region = await response.json();
+      requiresConsent = region.region === 'eu';
+    } catch {
+      requiresConsent = false;
+    } finally {
+      clearTimeout(timeout);
+      regionReady = true;
+      current = read();
+      applyRegion();
+    }
+  }
+  init();
 })();
