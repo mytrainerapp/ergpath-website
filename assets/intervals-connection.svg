@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="690" viewBox="0 0 920 690" role="img" aria-labelledby="title desc">
+<title id="title">ERGPath Intervals.icu connection</title><desc id="desc">Illustrative app connection card with a demo account and automatic uploads enabled.</desc>
+<rect x="2" y="2" width="916" height="686" rx="54" fill="#111512" stroke="#314137" stroke-width="3"/>
+<g font-family="Roboto,Arial,Helvetica,sans-serif">
+<rect x="46" y="46" width="100" height="100" rx="28" fill="#181f19"/>
+<g transform="translate(62 62) scale(2.83)" fill="none" stroke="#2be65c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20H21M5 20V12H9V20M11 20V5H15V20M17 20V9H21V20"/></g>
+<text x="174" y="111" font-size="43" font-weight="700" fill="#f4f7f4">INTERVALS.ICU</text>
+<text x="46" y="218" font-size="42" font-weight="700" fill="#81c784">Connected</text>
+<text x="46" y="305" font-size="36" fill="#9ba49d">Intervals.icu account (demo)</text>
+<text x="46" y="400" font-size="40" font-weight="700" fill="#f4f7f4">AUTO UPLOAD</text>
+<text x="46" y="460" font-size="31" fill="#9ba49d">Automatically upload new saved rides</text>
+<rect x="728" y="374" width="145" height="89" rx="45" fill="#2be65c"/><circle cx="828" cy="418.5" r="33" fill="#080b09"/>
+<text x="78" y="595" font-size="35" font-weight="500" fill="#ff9a9a">DISCONNECT INTERVALS.ICU</text>
+</g></svg>
