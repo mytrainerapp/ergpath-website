@@ -47,7 +47,7 @@
       const result = await response.json();
       if (response.ok && result.ok === true) {
         submitted=true;form.reset();button.textContent='YOU’RE ON THE LIST';
-        message('You’re on the list. We’ll email you when free testing opens. No confirmation email is sent today.');
+        message('You’re on the list. Check your inbox for the ERGPath download email, usually within 15 minutes. If you have already joined, your original invitation still applies. Check Junk or contact support@ergpath.com if you need help.');
         if(widget!==undefined)window.turnstile.remove(widget);
         return;
       }
