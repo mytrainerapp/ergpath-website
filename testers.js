@@ -47,7 +47,7 @@
       const result = await response.json();
       if (response.ok && result.ok === true) {
         submitted=true;form.reset();button.textContent='YOU’RE ON THE LIST';
-        message('You’re on the list. Check your inbox for the ERGPath download email, usually within 15 minutes. If you have already joined, your original invitation still applies. Check Junk or contact support@ergpath.com if you need help.');
+        message('You’re on the list! Your welcome email with the Android download link should arrive within 15 minutes. Check your inbox and Junk folder. If you’ve already signed up, use your original welcome email. Need help? Email support@ergpath.com.');
         if(widget!==undefined)window.turnstile.remove(widget);
         return;
       }
