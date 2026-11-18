@@ -68,4 +68,14 @@ export async function handle(request, env, send = fetch, now = Date.now()) {
     return reply(200,{ok:true});
   } catch { return failure(503,'temporarily_unavailable'); }
 }
-export function onRequest({request, env}) { return handle(request,env); }
+export async function onRequest({request, env, waitUntil}) {
+  const response = await handle(request, env);
+  if (request.method === 'POST' && new URL(request.url).pathname === '/api/testers/join' && response.ok && env.SIGNUP_NOTIFICATIONS) {
+    // The private service binding starts delivery immediately. The scheduled scan retries failures.
+    waitUntil(env.SIGNUP_NOTIFICATIONS.fetch('https://notifications.internal/signup', {method:'POST'})
+      .then(result => { if (!result.ok) console.error('signup_notification_trigger_failed'); })
+      .catch(() => console.error('signup_notification_trigger_failed')));
+  }
+  return response;
+}
+

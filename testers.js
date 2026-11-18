@@ -62,3 +62,4 @@
     finally {button.disabled=submitted;if(!submitted && widget!==undefined){token='';window.turnstile.reset(widget);}}
   });
 })();
+
