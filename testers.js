@@ -47,7 +47,7 @@
       const result = await response.json();
       if (response.ok && result.ok === true) {
         submitted=true;form.reset();button.textContent='YOU’RE ON THE LIST';
-        message('You’re on the list! Your welcome email with the Android download link should arrive within 15 minutes. Check your inbox and Junk folder. If you’ve already signed up, use your original welcome email. Need help? Email support@ergpath.com.');
+        message('You’re on the list! New sign-ups receive a welcome email with Google Play testing steps shortly; please allow up to 15 minutes and check your Junk folder. Use the same Google account for the tester group and Google Play. Already signed up or need help? Contact support@ergpath.com for the current testing links.');
         if(widget!==undefined)window.turnstile.remove(widget);
         return;
       }
